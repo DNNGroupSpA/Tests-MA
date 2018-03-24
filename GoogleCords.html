@@ -1,0 +1,92 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Documento sin título</title>
+<style>
+  #map {
+    height: 500px;
+    width: 500px;
+	}
+</style>
+	
+
+</head>
+
+<body>
+	
+<div id="map"></div>
+
+	<script>
+		
+		function initMap() {
+        var map = new google.maps.Map(document.getElementById('map'), {
+          center: {lat: 1, lng: 1},
+          zoom: 12
+        });
+        var infoWindow = new google.maps.InfoWindow({map: map});
+
+        // Permisos del navegador y control de errores.
+        if (navigator.geolocation) {
+         navigator.geolocation.getCurrentPosition(function(position) {
+            var pos = {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude
+            };
+
+            var lat = document.getElementById("lbLati").innerHTML = pos.lat;
+            var lng = document.getElementById("lbLong").innerHTML = pos.lng;
+            var dat = document.getElementById("lbdate").innerHTML = Date();
+            
+
+            infoWindow.setPosition(pos);
+            infoWindow.setContent('Location found.');
+            map.setCenter(pos);
+          }, 
+          
+          function() {
+            handleLocationError(true, infoWindow, map.getCenter());
+          });
+
+        } else {
+          //Dispositivos que no reconoscan GPS
+          handleLocationError(false, infoWindow, map.getCenter());
+        }
+      };
+		// Mensajes de error
+      function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+        infoWindow.setPosition(pos);
+        infoWindow.setContent(browserHasGeolocation ?
+                              'Error: Activar el GPS del celular o Navegador.' :
+                              'Error: El dispositivo no soporta GPS.');
+      }
+
+      
+	</script>
+
+<h1>HTTP FORM testing</h1>
+
+<a>Resultados del JS</a>
+<div><label id="lbLong" value="X"></label></div>
+<div><label id="lbLati" value="Y"></label></div>
+<div><label id="lbdate" value="Z"></label></div>
+
+<a>Inicio Formulario</a>
+<br>
+<br>
+<form action="#" method="POST">
+      name: <input type="text"> <br>
+      address: <input type="text"> <br>
+      <button disabled="disabled" value="Accept"></button> <br>
+</form>
+      <a>Final formulario</a>
+
+
+<script async defer
+src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAo7hOqKuDZFVWJcqoBlJC1kHdxhKAanVk&callback=initMap">
+</script>
+
+
+
+</body>
+</html>
